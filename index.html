@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Address Book</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Address Book</h1>
+
+    <div>
+      <h2>Add New Contact</h2>
+      <form>
+        <div>
+          <label for="name">Name:</label><br />
+          <input type="text" id="name" required />
+        </div>
+        <div>
+          <label for="phone">Phone:</label><br />
+          <input type="tel" id="phone" required />
+        </div>
+        <div>
+          <label for="email">Email:</label><br />
+          <input type="email" id="email" required />
+        </div>
+        <div>
+          <button type="submit">Add Contact</button>
+        </div>
+      </form>
+    </div>
+
+    <div>
+      <h2>Contacts</h2>
+      <div>
+        <div>
+          <h3>John Doe</h3>
+          <p>Phone: 123-456-7890</p>
+          <p>Email: john@example.com</p>
+        </div>
+        <div>
+          <h3>Jane Smith</h3>
+          <p>Phone: 098-765-4321</p>
+          <p>Email: jane@example.com</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
