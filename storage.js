@@ -1,0 +1,193 @@
+export const contacts = [
+  {
+    id: 1,
+    firstName: "John",
+    lastName: "Doe",
+    fullName: "John Doe",
+    nickname: "Johnny",
+    photoUrl: "https://example.com/photos/john.jpg",
+    birthday: "1990-01-01",
+    groups: ["Friends", "Work"],
+    workProfile: {
+      company: "Google",
+      jobTitle: "Software Engineer",
+      department: "Engineering",
+      website: "https://google.com",
+    },
+    emails: [
+      { type: "work", address: "john@example.com" },
+      { type: "personal", address: "john@gmail.com" },
+    ],
+    phones: [
+      { type: "mobile", number: "1234567890" },
+      { type: "work", number: "0987654321" },
+    ],
+    locations: [
+      {
+        type: "work",
+        street: "123 Main St",
+        addressLines: ["123 Main St", "Suite 400"],
+        city: "New York",
+        postalCode: "10001",
+        country: "United States",
+      },
+    ],
+    socialProfiles: [
+      { type: "LinkedIn", url: "https://linkedin.com/in/johndoe" },
+      { type: "Twitter", url: "https://twitter.com/johndoe" },
+    ],
+    notes: "John is a software engineer at Google",
+  },
+  {
+    id: 2,
+    firstName: "Jane",
+    lastName: "Smith",
+    fullName: "Jane Smith",
+    nickname: "Janie",
+    photoUrl: "https://example.com/photos/jane.jpg",
+    birthday: "1988-05-15",
+    groups: ["Work"],
+    workProfile: {
+      company: "Apple",
+      jobTitle: "Software Engineer",
+      department: "Development",
+      website: "https://apple.com",
+    },
+    emails: [
+      { type: "work", address: "jane@example.com" },
+      { type: "personal", address: "jane@gmail.com" },
+    ],
+    phones: [
+      { type: "mobile", number: "2345678901" },
+      { type: "work", number: "0987654321" },
+    ],
+    locations: [
+      {
+        type: "work",
+        street: "456 Main St",
+        addressLines: ["456 Main St"],
+        city: "Los Angeles",
+        postalCode: "90001",
+        country: "United States",
+      },
+    ],
+    socialProfiles: [
+      { type: "LinkedIn", url: "https://linkedin.com/in/janesmith" },
+    ],
+    notes: "Jane is a software engineer at Apple",
+  },
+  {
+    id: 3,
+    firstName: "Mike",
+    lastName: "Johnson",
+    fullName: "Mike Johnson",
+    nickname: "MJ",
+    photoUrl: "https://example.com/photos/mike.jpg",
+    birthday: "1985-07-20",
+    groups: ["Work"],
+    workProfile: {
+      company: "Microsoft",
+      jobTitle: "Software Engineer",
+      department: "Product Development",
+      website: "https://microsoft.com",
+    },
+    emails: [
+      { type: "work", address: "mike@example.com" },
+      { type: "personal", address: "mike@gmail.com" },
+    ],
+    phones: [
+      { type: "mobile", number: "3456789012" },
+      { type: "work", number: "0987654321" },
+    ],
+    locations: [
+      {
+        type: "work",
+        street: "789 Main St",
+        addressLines: ["789 Main St"],
+        city: "Chicago",
+        postalCode: "60001",
+        country: "United States",
+      },
+    ],
+    socialProfiles: [
+      { type: "LinkedIn", url: "https://linkedin.com/in/mikejohnson" },
+    ],
+    notes: "Mike is a software engineer at Microsoft",
+  },
+  {
+    id: 4,
+    firstName: "Sarah",
+    lastName: "Williams",
+    fullName: "Sarah Williams",
+    nickname: "Sara",
+    photoUrl: "https://example.com/photos/sarah.jpg",
+    birthday: "1992-09-10",
+    groups: ["Work"],
+    workProfile: {
+      company: "Amazon",
+      jobTitle: "Software Engineer",
+      department: "Cloud Services",
+      website: "https://amazon.com",
+    },
+    emails: [
+      { type: "work", address: "sarah@example.com" },
+      { type: "personal", address: "sarah@gmail.com" },
+    ],
+    phones: [
+      { type: "mobile", number: "4567890123" },
+      { type: "work", number: "0987654321" },
+    ],
+    locations: [
+      {
+        type: "work",
+        street: "101 Main St",
+        addressLines: ["101 Main St"],
+        city: "Houston",
+        postalCode: "77001",
+        country: "United States",
+      },
+    ],
+    socialProfiles: [
+      { type: "LinkedIn", url: "https://linkedin.com/in/sarahwilliams" },
+    ],
+    notes: "Sarah is a software engineer at Amazon",
+  },
+  {
+    id: 5,
+    firstName: "David",
+    lastName: "Brown",
+    fullName: "David Brown",
+    nickname: "Dave",
+    photoUrl: "https://example.com/photos/david.jpg",
+    birthday: "1987-11-30",
+    groups: ["Work"],
+    workProfile: {
+      company: "Facebook",
+      jobTitle: "Software Engineer 4",
+      department: "Engineering",
+      website: "https://facebook.com",
+    },
+    emails: [
+      { type: "work", address: "david@example.com" },
+      { type: "personal", address: "david@gmail.com" },
+    ],
+    phones: [
+      { type: "mobile", number: "5678901234" },
+      { type: "work", number: "0987654321" },
+    ],
+    locations: [
+      {
+        type: "work",
+        street: "123 Main St",
+        addressLines: ["123 Main St"],
+        city: "Boston",
+        postalCode: "02101",
+        country: "United States",
+      },
+    ],
+    socialProfiles: [
+      { type: "LinkedIn", url: "https://linkedin.com/in/davidbrown" },
+    ],
+    notes: "David is a software engineer at Facebook",
+  },
+];
