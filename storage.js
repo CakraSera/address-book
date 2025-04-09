@@ -6,7 +6,7 @@ export const contacts = [
     fullName: "John Doe",
     nickname: "Johnny",
     photoUrl: "https://example.com/photos/john.jpg",
-    birthday: "1990-01-01",
+    birthday: new Date("1990-01-01"),
     groups: ["Friends", "Work"],
     workProfile: {
       company: "Google",
@@ -45,7 +45,7 @@ export const contacts = [
     fullName: "Jane Smith",
     nickname: "Janie",
     photoUrl: "https://example.com/photos/jane.jpg",
-    birthday: "1988-05-15",
+    birthday: new Date("1988-05-15"),
     groups: ["Work"],
     workProfile: {
       company: "Apple",
@@ -83,7 +83,7 @@ export const contacts = [
     fullName: "Mike Johnson",
     nickname: "MJ",
     photoUrl: "https://example.com/photos/mike.jpg",
-    birthday: "1985-07-20",
+    birthday: new Date("1985-07-20"),
     groups: ["Work"],
     workProfile: {
       company: "Microsoft",
@@ -121,7 +121,7 @@ export const contacts = [
     fullName: "Sarah Williams",
     nickname: "Sara",
     photoUrl: "https://example.com/photos/sarah.jpg",
-    birthday: "1992-09-10",
+    birthday: new Date("1992-09-10"),
     groups: ["Work"],
     workProfile: {
       company: "Amazon",
@@ -159,7 +159,7 @@ export const contacts = [
     fullName: "David Brown",
     nickname: "Dave",
     photoUrl: "https://example.com/photos/david.jpg",
-    birthday: "1987-11-30",
+    birthday: new Date("1987-11-30"),
     groups: ["Work"],
     workProfile: {
       company: "Facebook",
