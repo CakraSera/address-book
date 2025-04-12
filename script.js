@@ -1,6 +1,5 @@
 import { contacts } from "./storage.js";
-
-function searchContanct(name = "Unknown") {
+function searchContact(name = "Unknown") {
   const userAvailable = contacts.find((contact) =>
     contact.fullName.includes(name)
   );
@@ -16,4 +15,4 @@ function searchContanct(name = "Unknown") {
     );
 }
 
-searchContanct("David");
+searchContact("David");
