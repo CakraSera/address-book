@@ -15,7 +15,7 @@ function searchContact(name = "Unknown") {
   );
 }
 
-function listingContacts() {
+function displayContacts() {
   contacts.map((contact) => {
     console.log(
       `${contact.fullName} (${
@@ -27,5 +27,5 @@ function listingContacts() {
   });
 }
 
-listingContacts();
+displayContacts();
 searchContact("David");
