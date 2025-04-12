@@ -16,18 +16,18 @@
 
     <div>
       <h2>Add New Contact</h2>
-      <form>
+      <form onsubmit="addNewContact(event)" method="post">
         <div>
           <label for="name">Name:</label><br />
-          <input type="text" id="name" required />
+          <input type="text" id="name" name="name" required />
         </div>
         <div>
           <label for="phone">Phone:</label><br />
-          <input type="tel" id="phone" required />
+          <input type="tel" id="phone" name="phone" required />
         </div>
         <div>
           <label for="email">Email:</label><br />
-          <input type="email" id="email" required />
+          <input type="email" id="email" name="email" required />
         </div>
         <div>
           <button type="submit">Add Contact</button>

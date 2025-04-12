@@ -31,5 +31,31 @@ function displayContacts() {
   });
 }
 
+function addNewContact(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const name = form.name.value;
+  const phone = form.phone.value;
+  const email = form.email.value;
+
+  const newContact = {
+    fullName: name,
+    phones: [{ number: phone }],
+    emails: [{ address: email }],
+    locations: [{ city: "", country: "" }],
+  };
+
+  contacts.push(newContact);
+  console.log("Contact added successfully:", newContact);
+
+  // Clear the form
+  form.reset();
+}
+
+function deleteDataContact(id) {}
+
+function editDataContact(id, formData) {}
+
 // displayContacts();
 searchContact("David");
