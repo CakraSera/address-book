@@ -1,26 +1,30 @@
 import { contacts } from "./storage.js";
 function searchContact(name = "Unknown") {
-  const userAvailable = contacts.find((contact) =>
-    contact.fullName.includes(name)
+  const foundContacts = contacts.filter((contact) =>
+    contact.fullName.toLowerCase().includes(name.toLowerCase())
   );
-  if (userAvailable) {
+
+  if (foundContacts.length > 0) {
     console.log("contact found");
-    console.log("=========================================");
-    console.log(`Name: ${userAvailable.fullName}`);
-    console.log(
-      `Phone: ${
-        userAvailable.phones[0].number ?? userAvailable.phones[1].mobile
-      }`
-    );
-    console.log(`Email: ${userAvailable.emails[0].address}`);
-    console.log(`City: ${userAvailable.locations[0].city}`);
-    console.log(`Country: ${userAvailable.locations[0].country}`);
-    console.log("=========================================");
+    for (contact in foundContacts) {
+      console.log("=========================================");
+      console.log(`Name: ${userAvailable.fullName}`);
+      console.log(
+        `Phone: ${
+          userAvailable.phones[0].number ?? userAvailable.phones[1].mobile
+        }`
+      );
+      console.log(`Email: ${userAvailable.emails[0].address}`);
+      console.log(`City: ${userAvailable.locations[0].city}`);
+      console.log(`Country: ${userAvailable.locations[0].country}`);
+      console.log("=========================================");
+    }
   }
 }
 
 function displayContacts() {
-  contacts.map((contact) => {
+  console.log("Display Contacts");
+  contacts.forEach((contact) => {
     console.log("=========================================");
     console.log(`Name: ${contact.fullName}`);
     console.log(`Phone: ${contact.phones[0].number}`);
@@ -31,31 +35,67 @@ function displayContacts() {
   });
 }
 
-function addNewContact(event) {
-  event.preventDefault();
+function addNewContact(contact) {
+  if (!contact) {
+    console.error("Error: Data contact is required");
+    return null;
+  }
 
-  const form = event.target;
-  const name = form.name.value;
-  const phone = form.phone.value;
-  const email = form.email.value;
+  // --- Calculate the new ID ---
 
-  const newContact = {
-    fullName: name,
-    phones: [{ number: phone }],
-    emails: [{ address: email }],
-    locations: [{ city: "", country: "" }],
-  };
+  // If the array is empty, start with ID 1
+  // Find the maximum ID among existing contacts
+  // Math.max needs individual arguments, not an array, hence the spread (...) operator
+  // Calculate the new ID based on the requirement (maxId + 2)
 
-  contacts.push(newContact);
-  console.log("Contact added successfully:", newContact);
+  // Add new contact
 
-  // Clear the form
-  form.reset();
+  //push
 }
 
-function deleteDataContact(id) {}
+function deleteDataContact(id) {
+  
+}
 
 function editDataContact(id, formData) {}
 
 // displayContacts();
-searchContact("David");
+searchContact("John");
+
+addNewContact({
+  firstName: "Rakhel",
+  lastName: "Cakra",
+  fullName: "Rakhel Cakra",
+  nickname: "Dave",
+  photoUrl: "https://example.com/photos/david.jpg",
+  birthday: new Date("1987-11-30"),
+  groups: ["Work"],
+  workProfile: {
+    company: "Facebook",
+    jobTitle: "Software Engineer 4",
+    department: "Engineering",
+    website: "https://facebook.com",
+  },
+  emails: [
+    { type: "work", address: "david@example.com" },
+    { type: "personal", address: "david@gmail.com" },
+  ],
+  phones: [
+    { type: "mobile", number: "5678901234" },
+    { type: "work", number: "0987654321" },
+  ],
+  locations: [
+    {
+      type: "work",
+      street: "123 Main St",
+      addressLines: ["123 Main St"],
+      city: "Boston",
+      postalCode: "02101",
+      country: "United States",
+    },
+  ],
+  socialProfiles: [
+    { type: "LinkedIn", url: "https://linkedin.com/in/davidbrown" },
+  ],
+  notes: "David is a software engineer at Facebook",
+});
