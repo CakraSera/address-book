@@ -1,4 +1,4 @@
-export const contacts = [
+export const storageContacts = [
   {
     id: 1,
     firstName: "John",
