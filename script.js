@@ -1,4 +1,5 @@
 import { contacts } from "./storage.js";
+
 function searchContact(name = "Unknown") {
   const foundContacts = contacts.filter((contact) =>
     contact.fullName.toLowerCase().includes(name.toLowerCase())
@@ -64,12 +65,43 @@ function deleteDataContact(id) {
 }
 
 function editDataContact(id, formData) {
-  const newContacts = contacts.map((contact) => {
-    if (contact.id === id) {
-      return formData;
-    }
-  });
-  console.log("🚀 ~ newContacts ~ newContacts:", newContacts)
+  // const newContacts = contacts.map((contact) => {
+  //   if (contact.id === id) {
+  //     return formData;
+  //   }
+  // });
+
+  const contactIndex = contacts.findIndex((contact) => contact.id === id);
+
+  if (contactIndex === -1) {
+    throw Error("Contact not found");
+  }
+
+  // Get the existing contact
+  const existingContact = contacts[contactIndex];
+
+  // Merge the existing contact with the new data
+  const updatedContact = {
+    ...existingContact,
+    ...formData,
+    // Preserve the ID
+    id: existingContact.id,
+    // Handle nested objects
+    workProfile: {
+      ...existingContact.workProfile,
+      ...formData.workProfile,
+    },
+    // Handle arrays by merging them if they exist in formData
+    emails: formData.emails || existingContact.emails,
+    phones: formData.phones || existingContact.phones,
+    locations: formData.locations || existingContact.locations,
+    socialProfiles: formData.socialProfiles || existingContact.socialProfiles,
+    groups: formData.groups || existingContact.groups,
+  };
+
+  // Update the contact in the array
+  contacts[contactIndex] = updatedContact;
+  console.log("Contact updated successfully:", updatedContact);
 }
 
 // displayContacts();
