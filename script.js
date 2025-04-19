@@ -1,26 +1,29 @@
-import { contacts } from "./storage.js";
+import { storageContacts } from "./storage.js";
 
-function searchContact(name = "Unknown") {
+let contacts = storageContacts;
+
+function searchContacts(keyword = "Unknown") {
   const foundContacts = contacts.filter((contact) =>
-    contact.fullName.toLowerCase().includes(name.toLowerCase())
+    contact.fullName.toLowerCase().includes(keyword.toLowerCase())
   );
   console.log("🚀 ~ searchContact ~ foundContacts:", foundContacts);
 
-  if (foundContacts.length > 0) {
-    console.log("contact found");
-    for (const contact of foundContacts) {
-      console.log("🚀 ~ searchContact ~ contact:", contact);
-      console.log("=========================================");
-      console.log(`Name: ${contact?.fullName}`);
-      console.log(
-        `Phone: ${contact?.phones[0].number ?? contact.phones[1].mobile}`
-      );
-      console.log(`Email: ${contact.emails[0].address}`);
-      console.log(`City: ${contact.locations[0].city}`);
-      console.log(`Country: ${contact.locations[0].country}`);
-      console.log("=========================================");
-    }
+  if (foundContacts.length <= 0) {
+    console.log("No contacts found");
   }
+
+  foundContacts.forEach((contact) => {
+    console.log("🚀 ~ searchContact ~ contact:", contact);
+    console.log("=========================================");
+    console.log(`Name: ${contact?.fullName}`);
+    console.log(
+      `Phone: ${contact?.phones[0].number ?? contact.phones[1].mobile}`
+    );
+    console.log(`Email: ${contact.emails[0].address}`);
+    console.log(`City: ${contact.locations[0].city}`);
+    console.log(`Country: ${contact.locations[0].country}`);
+    console.log("=========================================");
+  });
 }
 
 function displayContacts() {
@@ -54,14 +57,11 @@ function addNewContact(contact) {
 }
 
 function deleteDataContact(id) {
-  const indextoDelete = contacts.findIndex((contact) => contact.id !== id);
-  console.log("🚀 ~ deleteDataContact ~ indextoDelete:", indextoDelete);
+  const filteredContacts = contacts.filter((contact) => contact.id !== id);
+  console.log("🚀 ~ deleteDataContact ~ filteredContacts:", filteredContacts);
 
-  if (indextoDelete === -1) throw Error("Error: data not found");
-  else {
-    contacts.splice(indextoDelete, 1);
-    console.info("Data successly to delete");
-  }
+  contacts = filteredContacts;
+  console.info("Contact {name} successfully deleted");
 }
 
 function editDataContact(id, formData) {
@@ -105,7 +105,7 @@ function editDataContact(id, formData) {
 }
 
 // displayContacts();
-searchContact("John");
+searchContacts("John");
 
 addNewContact({
   firstName: "Rakhel",
