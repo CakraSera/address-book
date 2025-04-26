@@ -1,8 +1,23 @@
 import { storageContacts } from "./storage.js";
 
+const allContactList = document.getElementById("all-contact-list");
+
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
-console.log("🚀 ~ contacts:", contacts);
+
+function renderContacts() {
+  allContactList.innerHTML = contacts
+    .map((contact) => {
+      return `<li>
+              <div class="mb-4">
+                <h3>${contact.fullName}</h3>
+                <p>Phone: ${contact.phones[0].number}</p>
+                <p>Email: ${contact.emails[0].address}</p>
+              </div>
+            </li>`;
+    })
+    .join("");
+}
 
 function saveContactsToLocalStorage(contactsData) {
   try {
@@ -41,6 +56,7 @@ function searchContacts(keyword = "Unknown") {
 }
 
 function displayContacts(contacts) {
+  contacts.forEach((contacts) => {});
   contacts.forEach((contact) => {
     console.log("=========================================");
     console.log("ID:" + contact.id);
@@ -93,10 +109,10 @@ function editDataContact(id, formData) {
     return contact;
   });
 
-  console.log("🚀 ~ newContacts ~ newContacts:", newContacts);
-
   saveContactsToLocalStorage(newContacts);
 }
+
+renderContacts();
 
 displayContacts(getContactsFromLocalStorage());
 
