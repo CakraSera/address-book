@@ -6,32 +6,34 @@
     <title>Simple Address Book</title>
     <link rel="stylesheet" href="css/output.css" />
   </head>
-  <body>
-    <h1>My Address Book</h1>
+  <body class="mx-6">
+    <div class="flex justify-center">
+      <h1 class="text-3xl mt-6">My Address Book</h1>
+    </div>
 
     <div>
-      <h2>Add New Contact</h2>
+      <h2 class="text-2xl text-center mt-8">Add New Contact</h2>
       <form id="contact-data" method="post">
         <div>
           <label for="name">Name:</label><br />
-          <input type="text" id="name" name="name" required />
+          <input class="input" type="text" id="name" name="name" required />
         </div>
         <div>
           <label for="phone">Phone:</label><br />
-          <input type="tel" id="phone" name="phone" required />
+          <input class="input" type="tel" id="phone" name="phone" required />
         </div>
         <div>
           <label for="email">Email:</label><br />
-          <input type="email" id="email" name="email" required />
+          <input class="input" type="email" id="email" name="email" required />
         </div>
         <div>
-          <button type="submit">Add Contact</button>
+          <button type="submit" class="btn mt-2">Add Contact</button>
         </div>
       </form>
     </div>
 
     <div id="contacts">
-      <h2>Contacts</h2>
+      <h2 class="text-2xl text-center">Contacts</h2>
       <ul id="all-contact-list">
         <!-- <li>
           <div>

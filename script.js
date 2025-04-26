@@ -9,7 +9,7 @@ function renderContacts() {
   allContactList.innerHTML = contacts
     .map((contact) => {
       return `<li>
-              <div class="mb-4">
+              <div class="mb-4 card bg-gray-300 w-96 shadow-sm">
                 <h3>${contact.fullName}</h3>
                 <p>Phone: ${contact.phones[0].number}</p>
                 <p>Email: ${contact.emails[0].address}</p>
