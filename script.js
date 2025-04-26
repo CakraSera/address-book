@@ -201,7 +201,6 @@ saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
 
 function renderContacts(contactsData = contacts) {
-  console.log("🚀 ~ renderContacts ~ contacts:", contacts);
   allContactList.innerHTML = contactsData
     .map((contact) => {
       return ` <tr>
@@ -305,15 +304,15 @@ function addNewContact(contact) {
 }
 
 function deleteDataContact(id) {
-  console.log("🚀 ~ deleteDataContact ~ id:", id);
-  const contactToDelete = contacts.find((contact) => contact.id === id);
+  const contactData = getContactsFromLocalStorage();
+  const contactToDelete = contactData.find((contact) => contact.id === id);
   if (!contactToDelete) {
     throw Error("Data not found");
   }
-  const newContacts = contacts.filter((contact) => contact.id !== id);
+  const newContacts = contactData.filter((contact) => contact.id !== id);
   saveContactsToLocalStorage(newContacts);
   alert(`Contact with name ${contactToDelete.fullName} has been delete`);
-  renderContacts();
+  renderContacts(getContactsFromLocalStorage());
 }
 
 function editDataContact(id, formData) {
