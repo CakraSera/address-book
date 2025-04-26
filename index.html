@@ -38,10 +38,10 @@
             <li><a>Item 3</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">Address Book</a>
+        <a href="/" class="btn btn-ghost text-xl">Address Book</a>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <form id="input-form" class="form-control">
+        <form id="search-form" class="form-control" method="get">
           <label class="input">
             <svg
               class="h-[1em] opacity-50"
@@ -60,6 +60,7 @@
             <input
               id="search-input"
               type="search"
+              name="q"
               required
               placeholder="Search" />
           </label>

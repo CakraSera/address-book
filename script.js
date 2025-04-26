@@ -200,8 +200,18 @@ const editContactButton = document.getElementById("edit-contact");
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
 
-function renderContacts(contactsData = contacts) {
-  allContactList.innerHTML = contactsData
+function renderContacts(originalContactsData = contacts) {
+  const query = new URLSearchParams(window.location.search).get("q");
+  console.log("🚀 ~ renderContacts ~ searchParams:", query);
+
+  const filteredContacts =
+    query === null
+      ? originalContactsData
+      : contacts.filter((contact) =>
+          contact.fullName.toLowerCase().includes(query.toLowerCase())
+        );
+
+  allContactList.innerHTML = filteredContacts
     .map((contact) => {
       return ` <tr>
                 <td>
@@ -276,17 +286,17 @@ function getContactsFromLocalStorage() {
 }
 
 function searchContacts(event) {
-  if (event.key === "Enter") {
-    const keyword = event.target.value;
-    const foundContacts = contacts.filter((contact) =>
-      contact.fullName.toLowerCase().includes(keyword.toLowerCase())
-    );
-    if (foundContacts.length <= 0) {
-      throw Error("No contacts found");
-    }
-    renderContacts(foundContacts);
-    // return foundContacts;
+  console.log("🚀 ~ searchContacts ~ event:", event);
+  event.preventDefault();
+  const keyword = event.target.value;
+  const foundContacts = contacts.filter((contact) =>
+    contact.fullName.toLowerCase().includes(keyword.toLowerCase())
+  );
+  if (foundContacts.length <= 0) {
+    throw Error("No contacts found");
   }
+  renderContacts(foundContacts);
+  // return foundContacts;
 }
 function addNewContact(contact) {
   if (!contact) {
@@ -330,5 +340,3 @@ function editDataContact(id, formData) {
 }
 
 renderContacts();
-
-searchInput.addEventListener("keypress", (event) => searchContacts(event));
