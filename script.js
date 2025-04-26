@@ -4,7 +4,10 @@ const allContactList = document.getElementById("all-contact-list");
 const searchInput = document.getElementById("search-input");
 const viewContactButton = document.getElementById("view-contact");
 const editContactButton = document.getElementById("edit-contact");
-const deleteContactButtons = document.querySelectorAll("#delete-contact");
+const deleteContactButtons = document.querySelectorAll(
+  "#all-contact-list tr button[id='delete-contact']"
+);
+console.log("🚀 ~ deleteContactButtons:", deleteContactButtons);
 
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
