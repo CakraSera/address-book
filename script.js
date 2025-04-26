@@ -200,8 +200,19 @@ const editContactButton = document.getElementById("edit-contact");
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
 
-function renderContacts(contactsData = contacts) {
-  allContactList.innerHTML = contactsData
+function renderContacts(originalContactsData = contacts) {
+  const query = new URLSearchParams(window.location.search).get("q");
+
+  const filteredContacts = !query
+    ? originalContactsData
+    : originalContactsData.filter((contact) =>
+        contact.fullName.toLowerCase().includes(query.toLowerCase())
+      );
+
+  const searchInputElement = document.getElementById("search-input");
+  searchInputElement.value = query;
+
+  allContactList.innerHTML = filteredContacts
     .map((contact) => {
       return ` <tr>
                 <td>
@@ -275,19 +286,6 @@ function getContactsFromLocalStorage() {
   }
 }
 
-function searchContacts(event) {
-  if (event.key === "Enter") {
-    const keyword = event.target.value;
-    const foundContacts = contacts.filter((contact) =>
-      contact.fullName.toLowerCase().includes(keyword.toLowerCase())
-    );
-    if (foundContacts.length <= 0) {
-      throw Error("No contacts found");
-    }
-    renderContacts(foundContacts);
-    // return foundContacts;
-  }
-}
 function addNewContact(contact) {
   if (!contact) {
     throw Error("Error: Data contact is required");
@@ -330,5 +328,3 @@ function editDataContact(id, formData) {
 }
 
 renderContacts();
-
-searchInput.addEventListener("keypress", (event) => searchContacts(event));
