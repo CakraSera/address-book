@@ -197,20 +197,16 @@ const searchInput = document.getElementById("search-input");
 const viewContactButton = document.getElementById("view-contact");
 const editContactButton = document.getElementById("edit-contact");
 
-saveContactsToLocalStorage(storageContacts);
-const contacts = getContactsFromLocalStorage();
-
-function renderContacts(originalContactsData = contacts) {
+function renderContacts(originalContactsData) {
   const query = new URLSearchParams(window.location.search).get("q");
-  console.log("🚀 ~ renderContacts ~ searchParams:", query);
 
-  const filteredContacts =
-    query === null
-      ? originalContactsData
-      : contacts.filter((contact) =>
-          contact.fullName.toLowerCase().includes(query.toLowerCase())
-        );
+  const filteredContacts = !query
+    ? originalContactsData
+    : originalContactsData.filter((contact) =>
+        contact.fullName.toLowerCase().includes(query.toLowerCase())
+      );
 
+  searchInput.value = query || "";
   allContactList.innerHTML = filteredContacts
     .map((contact) => {
       return ` <tr>
@@ -274,8 +270,9 @@ function getContactsFromLocalStorage() {
   try {
     const storedContacts = localStorage.getItem("contacts");
 
-    if (!storedContacts) {
-      return [];
+    if (storedContacts === null) {
+      saveContactsToLocalStorage(storageContacts);
+      return storageContacts;
     }
 
     const parsedUsers = JSON.parse(storedContacts);
@@ -286,7 +283,6 @@ function getContactsFromLocalStorage() {
 }
 
 function searchContacts(event) {
-  console.log("🚀 ~ searchContacts ~ event:", event);
   event.preventDefault();
   const keyword = event.target.value;
   const foundContacts = contacts.filter((contact) =>
@@ -339,4 +335,4 @@ function editDataContact(id, formData) {
   saveContactsToLocalStorage(newContacts);
 }
 
-renderContacts();
+renderContacts(getContactsFromLocalStorage());
