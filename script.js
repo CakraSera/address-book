@@ -8,13 +8,61 @@ const contacts = getContactsFromLocalStorage();
 function renderContacts() {
   allContactList.innerHTML = contacts
     .map((contact) => {
-      return `<li>
-              <div class="mb-4 card bg-gray-300 w-96 shadow-sm">
-                <h3>${contact.fullName}</h3>
-                <p>Phone: ${contact.phones[0].number}</p>
-                <p>Email: ${contact.emails[0].address}</p>
-              </div>
-            </li>`;
+      // return `<li>
+      //         <div class="mb-4 card bg-gray-300 w-96 shadow-sm">
+      //           <div>
+      //             <h3>${contact.fullName}</h3>
+      //             <p>Phone: ${contact.phones[0].number}</p>
+      //             <p>Email: ${contact.emails[0].address}</p>
+      //           </div>
+      //           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      //             <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      //           </svg>
+      //         </div>
+      //       </li>`;
+
+      return ` <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="avatar">
+                      <div class="mask mask-squircle h-12 w-12">
+                        <img
+                          src=${contact.photoUrl}
+                          alt="Avatar Tailwind CSS Component" />
+                      </div>
+                    </div>
+                    <div>
+                      <div class="font-bold">${contact.fullName}</div>
+                      <div class="text-sm opacity-50">${
+                        contact.locations[0].country
+                      }</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  ${contact.workProfile.company}
+                  <br />
+                  <span class="badge badge-ghost badge-sm"
+                    >${contact.workProfile.jobTitle}</span
+                  >
+                </td>
+                <td>+62-${contact.phones[1].number}</td>
+                <td>${contact.emails[1].address}</td>
+                <td>
+                  <ul class="flex gap-2">
+                    ${contact.groups.map((group) => {
+                      return `<li>
+                        <div class="badge badge-success">${group}</div>
+                        `;
+                    })}
+                  </ul>
+                </td>
+                <th>
+                  <button class="btn btn-ghost btn-xs">view</button>
+                  <button class="btn btn-ghost btn-xs">edit</button>
+                  <button class="btn btn-ghost btn-xs">delete</button>
+                </th>
+              </tr>`;
     })
     .join("");
 }
@@ -113,70 +161,3 @@ function editDataContact(id, formData) {
 }
 
 renderContacts();
-
-displayContacts(getContactsFromLocalStorage());
-
-addNewContact({
-  firstName: "Rakhel",
-  lastName: "Cakra",
-  fullName: "Rakhel Cakra",
-  nickname: "Dave",
-  photoUrl: "https://example.com/photos/david.jpg",
-  birthday: new Date("1987-11-30"),
-  groups: ["Work"],
-  workProfile: {
-    company: "Facebook",
-    jobTitle: "Software Engineer 4",
-    department: "Engineering",
-    website: "https://facebook.com",
-  },
-  emails: [
-    { type: "work", address: "david@example.com" },
-    { type: "personal", address: "david@gmail.com" },
-  ],
-  phones: [
-    { type: "mobile", number: "5678901234" },
-    { type: "work", number: "0987654321" },
-  ],
-  locations: [
-    {
-      type: "work",
-      street: "123 Main St",
-      addressLines: ["123 Main St"],
-      city: "Boston",
-      postalCode: "02101",
-      country: "United States",
-    },
-  ],
-  socialProfiles: [
-    { type: "LinkedIn", url: "https://linkedin.com/in/davidbrown" },
-  ],
-  notes: "David is a software engineer at Facebook",
-});
-
-console.log("after add new contact");
-
-displayContacts(getContactsFromLocalStorage());
-
-deleteDataContact(6);
-
-console.info("after delete");
-
-displayContacts(getContactsFromLocalStorage());
-
-console.log("edit contact id: 2");
-
-editDataContact(2, {
-  firstName: "Andrew",
-  nickname: "Andrew",
-  fullName: "Andre Hub",
-  birthday: "2001-06-10",
-  emails: [
-    {
-      type: "work",
-      address: "andrew@.com",
-    },
-  ],
-});
-
-displayContacts(getContactsFromLocalStorage());
