@@ -1,10 +1,13 @@
 import { storageContacts } from "./storage.js";
 
-function saveContactsToLocalStorage() {
+saveContactsToLocalStorage(storageContacts);
+const contacts = getContactsFromLocalStorage();
+console.log("🚀 ~ contacts:", contacts);
+
+function saveContactsToLocalStorage(contactsData) {
   try {
-    const serializedContacts = JSON.stringify(storageContacts);
+    const serializedContacts = JSON.stringify(contactsData);
     localStorage.setItem("contacts", serializedContacts);
-    console.info("Contacts saved to localstorage!");
   } catch (error) {
     throw Error(error);
   }
@@ -13,17 +16,12 @@ function saveContactsToLocalStorage() {
 function getContactsFromLocalStorage() {
   try {
     const storedContacts = localStorage.getItem("contacts");
-    console.log(
-      "🚀 ~ getContactsFromLocalStorage ~ storedContacts:",
-      storedContacts
-    );
+
     if (!storedContacts) {
       return [];
     }
 
     const parsedUsers = JSON.parse(storedContacts);
-    console.log({ parsedUsers });
-    console.log(typeof parsedUsers);
     return parsedUsers;
   } catch (error) {
     throw Error(error);
@@ -31,9 +29,6 @@ function getContactsFromLocalStorage() {
 }
 
 function searchContacts(keyword = "Unknown") {
-  const buffferContacts = localStorage.getItem("contacts");
-  console.log("🚀 ~ searchContacts ~ buffferContacts:", buffferContacts);
-
   const foundContacts = contacts.filter((contact) =>
     contact.fullName.toLowerCase().includes(keyword.toLowerCase())
   );
@@ -42,10 +37,10 @@ function searchContacts(keyword = "Unknown") {
     throw Error("No contacts found");
   }
 
-  return { foundContacts };
+  return foundContacts;
 }
 
-function displayContacts() {
+function displayContacts(contacts) {
   contacts.forEach((contact) => {
     console.log("=========================================");
     console.log("ID:" + contact.id);
@@ -70,6 +65,7 @@ function addNewContact(contact) {
   };
 
   contacts.push(newContact);
+  saveContactsToLocalStorage(contacts);
 }
 
 function deleteDataContact(id) {
@@ -79,9 +75,10 @@ function deleteDataContact(id) {
     throw Error("Data not found");
   }
 
-  const newContact = contacts.filter((contact) => contact.id !== id);
+  const newContacts = contacts.filter((contact) => contact.id !== id);
 
-  contacts = newContact;
+  saveContactsToLocalStorage(newContacts);
+
   console.info(`Contact with name ${contactToDelete.fullName} has been delete`);
 }
 
@@ -89,158 +86,81 @@ function editDataContact(id, formData) {
   const newContacts = contacts.map((contact) => {
     if (contact.id === id) {
       return {
-        ...contacts,
+        ...contact,
         ...formData,
       };
     }
+    return contact;
   });
 
-  contacts = newContacts;
+  console.log("🚀 ~ newContacts ~ newContacts:", newContacts);
 
-  searchContacts(id);
+  saveContactsToLocalStorage(newContacts);
 }
 
-saveContactsToLocalStorage();
-getContactsFromLocalStorage();
+displayContacts(getContactsFromLocalStorage());
 
-// searchContacts("John");
-// displayContacts();
+addNewContact({
+  firstName: "Rakhel",
+  lastName: "Cakra",
+  fullName: "Rakhel Cakra",
+  nickname: "Dave",
+  photoUrl: "https://example.com/photos/david.jpg",
+  birthday: new Date("1987-11-30"),
+  groups: ["Work"],
+  workProfile: {
+    company: "Facebook",
+    jobTitle: "Software Engineer 4",
+    department: "Engineering",
+    website: "https://facebook.com",
+  },
+  emails: [
+    { type: "work", address: "david@example.com" },
+    { type: "personal", address: "david@gmail.com" },
+  ],
+  phones: [
+    { type: "mobile", number: "5678901234" },
+    { type: "work", number: "0987654321" },
+  ],
+  locations: [
+    {
+      type: "work",
+      street: "123 Main St",
+      addressLines: ["123 Main St"],
+      city: "Boston",
+      postalCode: "02101",
+      country: "United States",
+    },
+  ],
+  socialProfiles: [
+    { type: "LinkedIn", url: "https://linkedin.com/in/davidbrown" },
+  ],
+  notes: "David is a software engineer at Facebook",
+});
 
-// addNewContact({
-//   firstName: "Rakhel",
-//   lastName: "Cakra",
-//   fullName: "Rakhel Cakra",
-//   nickname: "Dave",
-//   photoUrl: "https://example.com/photos/david.jpg",
-//   birthday: new Date("1987-11-30"),
-//   groups: ["Work"],
-//   workProfile: {
-//     company: "Facebook",
-//     jobTitle: "Software Engineer 4",
-//     department: "Engineering",
-//     website: "https://facebook.com",
-//   },
-//   emails: [
-//     { type: "work", address: "david@example.com" },
-//     { type: "personal", address: "david@gmail.com" },
-//   ],
-//   phones: [
-//     { type: "mobile", number: "5678901234" },
-//     { type: "work", number: "0987654321" },
-//   ],
-//   locations: [
-//     {
-//       type: "work",
-//       street: "123 Main St",
-//       addressLines: ["123 Main St"],
-//       city: "Boston",
-//       postalCode: "02101",
-//       country: "United States",
-//     },
-//   ],
-//   socialProfiles: [
-//     { type: "LinkedIn", url: "https://linkedin.com/in/davidbrown" },
-//   ],
-//   notes: "David is a software engineer at Facebook",
-// });
+console.log("after add new contact");
 
-// addNewContact({
-//   firstName: "Sarah",
-//   lastName: "Johnson",
-//   fullName: "Sarah Johnson",
-//   nickname: "SJ",
-//   photoUrl: "https://example.com/photos/sarah.jpg",
-//   birthday: new Date("1990-05-15"),
-//   groups: ["Family", "Friends"],
-//   workProfile: {
-//     company: "Google",
-//     jobTitle: "Product Manager",
-//     department: "Product Management",
-//     website: "https://google.com",
-//   },
-//   emails: [
-//     { type: "work", address: "sarah.j@google.com" },
-//     { type: "personal", address: "sarah.johnson@gmail.com" },
-//   ],
-//   phones: [
-//     { type: "mobile", number: "1234567890" },
-//     { type: "work", number: "9876543210" },
-//   ],
-//   locations: [
-//     {
-//       type: "home",
-//       street: "456 Oak Avenue",
-//       addressLines: ["456 Oak Avenue"],
-//       city: "San Francisco",
-//       postalCode: "94105",
-//       country: "United States",
-//     },
-//   ],
-//   socialProfiles: [
-//     { type: "Twitter", url: "https://twitter.com/sarahjohnson" },
-//     { type: "Instagram", url: "https://instagram.com/sarahjohnson" },
-//   ],
-//   notes:
-//     "Sarah is a Product Manager at Google, passionate about user experience and product design",
-// });
+displayContacts(getContactsFromLocalStorage());
 
-// displayContacts();
+deleteDataContact(6);
 
-// deleteDataContact(1);
+console.info("after delete");
 
-// displayContacts();
+displayContacts(getContactsFromLocalStorage());
 
-// addNewContact({
-//   firstName: "Sarah",
-//   lastName: "Johnson",
-//   fullName: "Sarah Johnson",
-//   nickname: "SJ",
-//   photoUrl: "https://example.com/photos/sarah.jpg",
-//   birthday: new Date("1990-05-15"),
-//   groups: ["Family", "Friends"],
-//   workProfile: {
-//     company: "Google",
-//     jobTitle: "Product Manager",
-//     department: "Product Management",
-//     website: "https://google.com",
-//   },
-//   emails: [
-//     { type: "work", address: "sarah.j@google.com" },
-//     { type: "personal", address: "sarah.johnson@gmail.com" },
-//   ],
-//   phones: [
-//     { type: "mobile", number: "1234567890" },
-//     { type: "work", number: "9876543210" },
-//   ],
-//   locations: [
-//     {
-//       type: "home",
-//       street: "456 Oak Avenue",
-//       addressLines: ["456 Oak Avenue"],
-//       city: "San Francisco",
-//       postalCode: "94105",
-//       country: "United States",
-//     },
-//   ],
-//   socialProfiles: [
-//     { type: "Twitter", url: "https://twitter.com/sarahjohnson" },
-//     { type: "Instagram", url: "https://instagram.com/sarahjohnson" },
-//   ],
-//   notes:
-//     "Sarah is a Product Manager at Google, passionate about user experience and product design",
-// });
+console.log("edit contact id: 2");
 
-// displayContacts();
+editDataContact(2, {
+  firstName: "Andrew",
+  nickname: "Andrew",
+  fullName: "Andre Hub",
+  birthday: "2001-06-10",
+  emails: [
+    {
+      type: "work",
+      address: "andrew@.com",
+    },
+  ],
+});
 
-// editDataContact(2, {
-//   firstName: "Andrew",
-//   nickname: "Andrew",
-//   fullName: "Andre Hub",
-//   birthday: "2001-06-10",
-//   emails: [
-//     {
-//       type: "work",
-//       address: "andrew@.com",
-//     },
-//   ],
-// });
+displayContacts(getContactsFromLocalStorage());
