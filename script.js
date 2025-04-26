@@ -1,33 +1,51 @@
-import { contacts } from "./storage.js";
+import { storageContacts } from "./storage.js";
 
-let contactData = contacts;
+function saveContactsToLocalStorage() {
+  try {
+    const serializedContacts = JSON.stringify(storageContacts);
+    localStorage.setItem("contacts", serializedContacts);
+    console.info("Contacts saved to localstorage!");
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
+function getContactsFromLocalStorage() {
+  try {
+    const storedContacts = localStorage.getItem("contacts");
+    console.log(
+      "🚀 ~ getContactsFromLocalStorage ~ storedContacts:",
+      storedContacts
+    );
+    if (!storedContacts) {
+      return [];
+    }
+
+    const parsedUsers = JSON.parse(storedContacts);
+    console.log({ parsedUsers });
+    console.log(typeof parsedUsers);
+    return parsedUsers;
+  } catch (error) {
+    throw Error(error);
+  }
+}
 
 function searchContacts(keyword = "Unknown") {
+  const buffferContacts = localStorage.getItem("contacts");
+  console.log("🚀 ~ searchContacts ~ buffferContacts:", buffferContacts);
+
   const foundContacts = contacts.filter((contact) =>
     contact.fullName.toLowerCase().includes(keyword.toLowerCase())
   );
-  console.log("🚀 ~ searchContacts ~ foundContacts:", foundContacts);
 
   if (foundContacts.length <= 0) {
-    throw Error("Data not found");
+    throw Error("No contacts found");
   }
 
-  foundContacts.forEach((contact) => {
-    console.log("🚀 ~ searchContacts ~ contact:", contact);
-    console.log("=========================================");
-    console.log(`Name: ${contact?.fullName}`);
-    console.log(
-      `Phone: ${contact?.phones[0].number ?? contact.phones[1].mobile}`
-    );
-    console.log(`Email: ${contact.emails[0].address}`);
-    console.log(`City: ${contact.locations[0].city}`);
-    console.log(`Country: ${contact.locations[0].country}`);
-    console.log("=========================================");
-  });
+  return { foundContacts };
 }
 
 function displayContacts() {
-  console.log("Display Contacts");
   contacts.forEach((contact) => {
     console.log("=========================================");
     console.log("ID:" + contact.id);
@@ -55,23 +73,38 @@ function addNewContact(contact) {
 }
 
 function deleteDataContact(id) {
-  const newContact = contactData.map((contact) => contact.id !== id);
-  contactData = newContact;
-  
+  const contactToDelete = contacts.find((contact) => contact.id === id);
+
+  if (!contactToDelete) {
+    throw Error("Data not found");
+  }
+
+  const newContact = contacts.filter((contact) => contact.id !== id);
+
+  contacts = newContact;
+  console.info(`Contact with name ${contactToDelete.fullName} has been delete`);
 }
 
 function editDataContact(id, formData) {
   const newContacts = contacts.map((contact) => {
     if (contact.id === id) {
-      return formData;
+      return {
+        ...contacts,
+        ...formData,
+      };
     }
   });
 
-  contactData = newContacts;
+  contacts = newContacts;
+
+  searchContacts(id);
 }
 
+saveContactsToLocalStorage();
+getContactsFromLocalStorage();
+
+// searchContacts("John");
 // displayContacts();
-searchContacts("John");
 
 // addNewContact({
 //   firstName: "Rakhel",
