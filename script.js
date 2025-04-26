@@ -200,8 +200,9 @@ const editContactButton = document.getElementById("edit-contact");
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
 
-function renderContacts(contacts = storageContacts) {
-  allContactList.innerHTML = contacts
+function renderContacts(contactsData = contacts) {
+  console.log("🚀 ~ renderContacts ~ contacts:", contacts);
+  allContactList.innerHTML = contactsData
     .map((contact) => {
       return ` <tr>
                 <td>
@@ -304,6 +305,7 @@ function addNewContact(contact) {
 }
 
 function deleteDataContact(id) {
+  console.log("🚀 ~ deleteDataContact ~ id:", id);
   const contactToDelete = contacts.find((contact) => contact.id === id);
   if (!contactToDelete) {
     throw Error("Data not found");
