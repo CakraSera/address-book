@@ -136,10 +136,8 @@ function getContactsFromLocalStorage() {
 }
 
 function searchContacts(event) {
-  console.log("🚀 ~ searchContacts ~ event:", event.key);
   if (event.key === "Enter") {
     const keyword = event.target.value;
-    console.log("🚀 ~ searchContacts ~ keyword:", keyword);
     const foundContacts = contacts.filter((contact) =>
       contact.fullName.toLowerCase().includes(keyword.toLowerCase())
     );
