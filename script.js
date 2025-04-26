@@ -112,8 +112,6 @@ function editDataContact(id, formData) {
   saveContactsToLocalStorage(newContacts);
 }
 
-renderContacts();
-
 displayContacts(getContactsFromLocalStorage());
 
 addNewContact({
@@ -180,3 +178,5 @@ editDataContact(2, {
 });
 
 displayContacts(getContactsFromLocalStorage());
+
+renderContacts();
