@@ -4,15 +4,11 @@ const allContactList = document.getElementById("all-contact-list");
 const searchInput = document.getElementById("search-input");
 const viewContactButton = document.getElementById("view-contact");
 const editContactButton = document.getElementById("edit-contact");
-const deleteContactButtons = document.querySelectorAll(
-  "#all-contact-list tr button[id='delete-contact']"
-);
-console.log("🚀 ~ deleteContactButtons:", deleteContactButtons);
 
 saveContactsToLocalStorage(storageContacts);
 const contacts = getContactsFromLocalStorage();
 
-function renderContacts() {
+function renderContacts(contacts = storageContacts) {
   allContactList.innerHTML = contacts
     .map((contact) => {
       return ` <tr>
@@ -52,62 +48,11 @@ function renderContacts() {
                   </ul>
                 </td>
                 <th>
-                  <button id="view-contact" class="btn btn-ghost btn-xs">view</button>
+                  <a href="./contact/" id="view-contact" class="btn btn-ghost btn-xs">view</a>
                   <button id="edit-contact" class="btn btn-ghost btn-xs">edit</button>
-                  <button id="delete-contact" class="btn btn-ghost btn-xs" data-id=${
+                  <button id="delete-contact" onclick="deleteDataContact(${
                     contact.id
-                  }>delete</button>
-                </th>
-              </tr>`;
-    })
-    .join("");
-}
-
-function renderContactsv2(foundContacts) {
-  allContactList.innerHTML = foundContacts
-    .map((contact) => {
-      return ` <tr>
-                <td>
-                  <div class="flex items-center gap-3">
-                    <div class="avatar">
-                      <div class="mask mask-squircle h-12 w-12">
-                        <img
-                          src=${contact.photoUrl}
-                          alt="Avatar Tailwind CSS Component" />
-                      </div>
-                    </div>
-                    <div>
-                      <div class="font-bold">${contact.fullName}</div>
-                      <div class="text-sm opacity-50">${
-                        contact.locations[0].country
-                      }</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  ${contact.workProfile.company}
-                  <br />
-                  <span class="badge badge-ghost badge-sm"
-                    >${contact.workProfile.jobTitle}</span
-                  >
-                </td>
-                <td>+62-${contact.phones[1].number}</td>
-                <td>${contact.emails[1].address}</td>
-                <td>
-                  <ul class="flex gap-2">
-                    ${contact.groups.map((group) => {
-                      return `<li>
-                        <div class="badge badge-success">${group}</div>
-                        `;
-                    })}
-                  </ul>
-                </td>
-                <th>
-                  <button id="view-contact" class="btn btn-ghost btn-xs">view</button>
-                  <button id="edit-contact" class="btn btn-ghost btn-xs">edit</button>
-                  <button id="delete-contact" class="btn btn-ghost btn-xs" data-id=${
-                    contact.id
-                  }>delete</button>
+                  })" class="btn btn-ghost btn-xs">delete</button>
                 </th>
               </tr>`;
     })
@@ -147,7 +92,7 @@ function searchContacts(event) {
     if (foundContacts.length <= 0) {
       throw Error("No contacts found");
     }
-    renderContactsv2(foundContacts);
+    renderContacts(foundContacts);
     // return foundContacts;
   }
 }
@@ -166,19 +111,15 @@ function addNewContact(contact) {
   saveContactsToLocalStorage(contacts);
 }
 
-function deleteDataContact(event) {
-  console.log("🚀 ~ deleteDataContact ~ event:", event);
-  // const contactToDelete = contacts.find((contact) => contact.id === id);
-
-  // if (!contactToDelete) {
-  //   throw Error("Data not found");
-  // }
-
-  // const newContacts = contacts.filter((contact) => contact.id !== id);
-
-  // saveContactsToLocalStorage(newContacts);
-  // alert(`Contact with name ${contactToDelete.fullName} has been delete`);
-  // renderContacts();
+function deleteDataContact(id) {
+  const contactToDelete = contacts.find((contact) => contact.id === id);
+  if (!contactToDelete) {
+    throw Error("Data not found");
+  }
+  const newContacts = contacts.filter((contact) => contact.id !== id);
+  saveContactsToLocalStorage(newContacts);
+  alert(`Contact with name ${contactToDelete.fullName} has been delete`);
+  renderContacts();
 }
 
 function editDataContact(id, formData) {
@@ -198,9 +139,3 @@ function editDataContact(id, formData) {
 renderContacts();
 
 searchInput.addEventListener("keypress", (event) => searchContacts(event));
-
-deleteContactButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    console.log("🚀 ~ button:", button);
-  });
-});
