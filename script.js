@@ -231,13 +231,18 @@ function renderContacts() {
   searchInput.value = query || "";
   allContactList.innerHTML = filteredContacts
     .map((contact) => {
+      console.log("🚀 ~ .map ~ contact:", contact.photoUrl);
       return ` <tr>
                 <td>
                   <div class="flex items-center gap-3">
                     <div class="avatar">
                       <div class="mask mask-squircle h-12 w-12">
                         <img
-                          src=${contact.photoUrl}
+                          src=${
+                            contact.photoUrl
+                              ? contact.photoUrl
+                              : `https://api.dicebear.com/9.x/pixel-art/jpg?seed=${contact.fullName}`
+                          }
                           alt="Avatar Tailwind CSS Component" />
                       </div>
                     </div>
