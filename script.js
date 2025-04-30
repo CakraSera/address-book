@@ -250,21 +250,25 @@ function renderContacts() {
                   </div>
                 </td>
                 <td>
-                  ${contact.workProfile.company}
+                  ${contact.workProfile?.company || ""}
                   <br />
                   <span class="badge badge-ghost badge-sm"
-                    >${contact.workProfile.jobTitle}</span
+                    >${contact.workProfile?.jobTitle || ""}</span
                   >
                 </td>
                 <td>+62-${contact.phones[0].number}</td>
                 <td>${contact.emails[0].address}</td>
                 <td>
                   <ul class="flex gap-2">
-                    ${contact.groups.map((group) => {
-                      return `<li>
+                    ${
+                      !contact.group
+                        ? ""
+                        : contact.groups.map((group) => {
+                            return `<li>
                         <div class="badge badge-success">${group}</div>
                         `;
-                    })}
+                          })
+                    }
                   </ul>
                 </td>
                 <th>

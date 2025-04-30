@@ -42,6 +42,8 @@ function getContactById(id) {
 }
 
 function addNewContact(contact) {
+  const contacts = getContactsFromLocalStorage();
+
   if (!contact) {
     throw Error("Error: Data contact is required");
   }
@@ -52,8 +54,10 @@ function addNewContact(contact) {
     id: newId,
   };
 
-  contacts.push(newContact);
-  saveContactsToLocalStorage(contacts);
+  const newListContact = [...contacts, newContact];
+  console.log("🚀 ~ addNewContact ~ newListContact:", newListContact);
+
+  saveContactsToLocalStorage(newListContact);
 }
 
 function deleteDataContact(id) {
