@@ -275,7 +275,9 @@ function renderContacts() {
                   <a href="./contact/?id=${
                     contact.id
                   }" id="view-contact" class="btn btn-ghost btn-xs">view</a>
-                  <button id="edit-contact" class="btn btn-ghost btn-xs">edit</button>
+                  <a href="./edit-contact/?id=${
+                    contact.id
+                  }" class="btn btn-ghost btn-xs">edit</a>
                   <button id="delete-contact" onclick="deleteDataContact(${
                     contact.id
                   })" class="btn btn-ghost btn-xs">delete</button>

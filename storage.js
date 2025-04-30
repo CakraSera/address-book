@@ -82,8 +82,13 @@ function deleteDataContact(id) {
 }
 
 function editDataContact(id, formData) {
-  const newContacts = contacts.map((contact) => {
-    if (contact.id === id) {
+  console.log("🚀 ~ editDataContact ~ id:", id);
+  console.log("🚀 ~ editDataContact ~ formData:", formData);
+  const contactData = getContactsFromLocalStorage();
+
+  const newContacts = contactData.map((contact) => {
+    if (contact.id == id) {
+      console.log("🚀 ~ newContacts ~ contact:", contact);
       return {
         ...contact,
         ...formData,
@@ -91,6 +96,7 @@ function editDataContact(id, formData) {
     }
     return contact;
   });
+  console.log("🚀 ~ newContacts ~ newContacts:", newContacts);
 
   saveContactsToLocalStorage(newContacts);
 }
