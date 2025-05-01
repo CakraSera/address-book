@@ -82,8 +82,6 @@ function deleteDataContact(id) {
 }
 
 function editDataContact(id, formData) {
-  console.log("🚀 ~ editDataContact ~ id:", id);
-  console.log("🚀 ~ editDataContact ~ formData:", formData);
   const contactData = getContactsFromLocalStorage();
 
   const newContacts = contactData.map((contact) => {

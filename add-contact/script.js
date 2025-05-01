@@ -25,19 +25,12 @@ contactFormElement.addEventListener("submit", (event) => {
 });
 
 async function getCountryAPI() {
-  var headers = new Headers();
-  headers.append("X-CSCAPI-KEY", "API_KEY");
-
-  var requestOptions = {
-    method: "GET",
+  const headers = { "X-Api-Key": "H7fv3DvCJWdXHN7U5oMApA==NesX3ejx4qXZbudT" };
+  console.log("🚀 ~ getCountryAPI ~ headers:", headers);
+  const response = await fetch("https://api.api-ninjas.com/v1/allcountries", {
     headers: headers,
-    redirect: "follow",
-  };
-
-  fetch("https://api.countrystatecity.in/v1/countries/IN", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
+  });
+  const data = await response.json();
+  console.log("🚀 ~ getCountryAPI ~ data:", data);
 }
-
 getCountryAPI();

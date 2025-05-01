@@ -231,7 +231,6 @@ function renderContacts() {
   searchInput.value = query || "";
   allContactList.innerHTML = filteredContacts
     .map((contact) => {
-      console.log("🚀 ~ .map ~ contact:", contact.photoUrl);
       return ` <tr>
                 <td>
                   <div class="flex items-center gap-3">
@@ -249,30 +248,42 @@ function renderContacts() {
                     <div>
                       <div class="font-bold">${contact.fullName}</div>
                       <div class="text-sm opacity-50">${
-                        contact.locations[0].country
+                        contact.locations[0]?.country ??
+                        `<p>
+                            <i>Not Available</i>
+                          </p>`
                       }</div>
                     </div>
                   </div>
                 </td>
                 <td>
-                  ${contact.workProfile?.company || ""}
+                ${
+                  !contact.workProfile
+                    ? `<p><i>Not Available<i><p>`
+                    : `
+                  ${contact.workProfile?.company}
                   <br />
                   <span class="badge badge-ghost badge-sm"
-                    >${contact.workProfile?.jobTitle || ""}</span
+                    >${contact.workProfile?.jobTitle}</span
                   >
                 </td>
+                `
+                }
+                  
                 <td>+62-${contact.phones[0].number}</td>
                 <td>${contact.emails[0].address}</td>
                 <td>
                   <ul class="flex gap-2">
                     ${
-                      !contact.group
+                      !contact.groups
                         ? ""
-                        : contact.groups.map((group) => {
-                            return `<li>
+                        : contact.groups
+                            .map((group) => {
+                              return `<li>
                         <div class="badge badge-success">${group}</div>
                         `;
-                          })
+                            })
+                            .join("")
                     }
                   </ul>
                 </td>
