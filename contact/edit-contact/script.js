@@ -1,56 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Contact</title>
-    <link rel="stylesheet" href="/css/output.css" />
-  </head>
-  <body>
-    <header class="navbar bg-base-100 shadow-sm">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
-          </div>
-          <ul
-            tabindex="0"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-            <li><a>Item 1</a></li>
-            <li>
-              <a>Parent</a>
-              <ul class="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
-            </li>
-            <li><a>Item 3</a></li>
-          </ul>
-        </div>
-        <a href="/index.html" class="btn btn-ghost text-xl">Address Book</a>
-      </div>
-      <div class="navbar-end">
-        <a href="/contact/index.html" class="btn">Add Contact</a>
-      </div>
-    </header>
-    <main>
-      <div class="container mx-auto p-4">
-        <fieldset class="card w-96 bg-base-100 shadow-xl mx-auto">
-          <div class="card-body">
-            <legend class="card-title">Add New Contact</legend>
-            <form id="contactForm" method="post">
-              <div class="mb-4 w-full max-w-xs">
+const editForm = document.getElementById("edit-form");
+const contactId = new URLSearchParams(window.location.search).get("id");
+
+function renderEditFormContact() {
+  const contact = getContactById(Number(contactId));
+  editForm.innerHTML = `            
+            <div class="mb-4 w-full max-w-xs">
                 <label for="fullname" class="label">Fullname</label>
                 <div class="input validator">
                   <svg
@@ -69,6 +23,7 @@
                     </g>
                   </svg>
                   <input
+                    value="${contact.fullName}"
                     name="fullname"
                     type="text"
                     required
@@ -93,6 +48,7 @@
                       d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
                   </svg>
                   <input
+                    value="${contact.workProfile.company}"
                     name="company"
                     type="text"
                     placeholder="Input your company"
@@ -114,6 +70,7 @@
                       d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5" />
                   </svg>
                   <input
+                    value="${contact.workProfile.jobTitle}"
                     name="job-title"
                     type="text"
                     placeholder="Input you job title"
@@ -141,6 +98,7 @@
                   </svg>
                   <span>+</span>
                   <input
+                    value="${contact.phones[0].number.replace("+", "")}"
                     name="phone-number"
                     type="tel"
                     class="tabular-nums"
@@ -168,6 +126,7 @@
                     </g>
                   </svg>
                   <input
+                    value="${contact.emails[0].address}"
                     name="email"
                     type="email"
                     placeholder="mail@site.com" />
@@ -182,9 +141,12 @@
                   <span class="label-text">Address</span>
                 </label>
                 <textarea
+                  rows="3"
                   name="address"
                   class="textarea"
-                  placeholder="Input your address"></textarea>
+                  placeholder="Input your address">${
+                    contact.locations[0].street
+                  }</textarea>
               </div>
 
               <div class="mb-4 w-full max-w-xs">
@@ -192,6 +154,7 @@
                   <span class="label-text">Country</span>
                 </label>
                 <input
+                  value="${contact.locations[0].country}"
                   name="country"
                   type="text"
                   class="input"
@@ -205,18 +168,54 @@
                   <option value="China">China</option>
                 </datalist>
               </div>
-              <div class="mt-4">
+            <div class="flex items-center gap-2">
+              <div class="form-control">
                 <button type="submit" class="btn btn-primary">
-                  Save Contact
+                  Save Changes
                 </button>
               </div>
-            </form>
-          </div>
-        </fieldset>
-      </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../storage.js"></script>
-    <script src="./script.js"></script>
-  </body>
-</html>
+              <div class="form-control">
+                <a href="/index.html" class="btn btn-outline">Cancel</a>
+              </div>
+            </div>
+            `;
+}
+
+editForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(editForm);
+  console.log("🚀 ~ editForm.addEventListener ~ formData:", formData);
+  const contactForm = {
+    fullName: String(formData.get("fullname")),
+    emails: [{ type: "work", address: String(formData.get("email")) }],
+    workProfile: {
+      company: String(formData.get("company")),
+      jobTitle: String(formData.get("job-title")),
+    },
+    phones: [
+      { type: "personal", number: `+${Number(formData.get("phone-number"))}` },
+    ],
+    locations: [
+      {
+        street: String(formData.get("address")),
+        country: String(formData.get("country")),
+      },
+    ],
+  };
+
+  editDataContact(contactId, contactForm);
+
+  Swal.fire({
+    title: "Success!",
+    text: `Contact with name ${contactForm.fullName} has been edited`,
+    icon: "success",
+    confirmButtonText: "Ok",
+    didClose: () => {
+      window.location.href = "/index.html";
+    },
+  });
+});
+
+renderEditFormContact();
+
+getCountriesAPIs();

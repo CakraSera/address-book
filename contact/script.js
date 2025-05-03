@@ -3,6 +3,7 @@ function renderContacts() {
   const contactId = new URLSearchParams(window.location.search).get("id");
 
   const contact = getContactById(Number(contactId));
+  console.log("🚀 ~ renderContacts ~ contact:", contact);
 
   contactDetails.innerHTML = `<div class="card bg-base-100 shadow-xl">
           <div class="card-body">
@@ -39,7 +40,11 @@ function renderContacts() {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <span>${contact.emails[0].address}</span>
+                ${
+                  contact.emails[0].address == ""
+                    ? `<a href="/contact/edit-contact/?id=${contact.id}" class="hover:text-primary">Add your email</a>`
+                    : `<span>${contact.emails[0].address}</span>`
+                }
               </div>
               <div class="flex items-center gap-2">
                 <svg
@@ -56,7 +61,7 @@ function renderContacts() {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                <span>+62-${contact.phones[0].number}</span>
+                <span>${contact.phones[0].number}</span>
               </div>
               <div class="flex items-center gap-2">
                 <svg
@@ -79,13 +84,22 @@ function renderContacts() {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span>${contact.locations[0].street}, ${contact.locations[0].city}, ${contact.locations[0].country}</span>
+                ${
+                  contact.locations[0].street == "" &&
+                  contact.locations[0].country == ""
+                    ? `<a href="/contact/edit-contact/?id=${contact.id}" class="hover:text-primary">Add your location</a>`
+                    : `<span>${contact.locations[0].street}, ${contact.locations[0].country}</span>`
+                } 
               </div>
             </div>
 
             <div class="card-actions justify-end mt-6">
-              <button class="btn btn-primary">Edit Contact</button>
-              <button class="btn btn-error">Delete</button>
+              <a href="/contact/edit-contact/?id=${
+                contact.id
+              }" class="btn btn-primary">Edit Contact</a>
+              <button class="btn btn-error" onclick="deleteDataContact(${
+                contact.id
+              })" class="btn btn-ghost btn-xs">delete</button>
             </div>
           </div>
         </div>`;

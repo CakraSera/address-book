@@ -76,7 +76,7 @@ function deleteDataContact(id) {
     icon: "success",
     confirmButtonText: "Ok",
     didClose: () => {
-      window.location.reload();
+      window.location.href = "/index.html";
     },
   });
 }
@@ -97,4 +97,28 @@ function editDataContact(id, formData) {
   console.log("🚀 ~ newContacts ~ newContacts:", newContacts);
 
   saveContactsToLocalStorage(newContacts);
+}
+
+async function getCountriesAPIs() {
+  var headers = new Headers();
+  headers.append(
+    "X-CSCAPI-KEY",
+    "Z2U5UHZ5djNDMVVDdXBEUzVjTXNKMjR2ck4zZlpGb0dSaXY5dUwweA=="
+  );
+
+  var requestOptions = {
+    method: "GET",
+    headers: headers,
+    redirect: "follow",
+  };
+
+  const response = await fetch(
+    "https://api.countrystatecity.in/v1/countries/",
+    requestOptions
+  );
+  const data = await response.json();
+  const countryList = data.map((country) => {
+    return `<option value="${country.name} ">${country.emoji}-${country.name}</option>`;
+  });
+  countriesElement.innerHTML = countryList.join("");
 }

@@ -5,7 +5,7 @@ const storageContacts = [
     lastName: "Santoso",
     fullName: "Budi Santoso",
     nickname: "Budi",
-    photoUrl: "https://img.daisyui.com/images/profile/demo/2@94.webp", // Anda bisa ganti dengan URL foto yang lebih relevan jika ada
+    photoUrl: "https://img.daisyui.com/images/profile/demo/2@94.webp",
     birthday: new Date("1990-01-15"),
     groups: ["Teman", "Kerja"],
     workProfile: {
@@ -19,8 +19,8 @@ const storageContacts = [
       { type: "personal", address: "budisantoso@gmail.com" },
     ],
     phones: [
-      { type: "mobile", number: "81234567890" }, // Format nomor HP Indonesia
-      { type: "work", number: "021-555-1234" }, // Contoh nomor kantor Jakarta
+      { type: "mobile", number: "+6281234567890" },
+      { type: "work", number: "+62021-555-1234" },
     ],
     locations: [
       {
@@ -32,7 +32,7 @@ const storageContacts = [
         country: "Indonesia",
       },
       {
-        type: "home", // Menambah contoh alamat rumah
+        type: "home",
         street: "Jl. Cempaka Putih No. 10",
         addressLines: ["RT 05 RW 02"],
         city: "Jakarta Pusat",
@@ -41,7 +41,7 @@ const storageContacts = [
       },
     ],
     socialProfiles: [
-      { type: "LinkedIn", url: "https://linkedin.com/in/budisantoso" }, // Ganti dengan link asli jika ada
+      { type: "LinkedIn", url: "https://linkedin.com/in/budisantoso" },
       { type: "Instagram", url: "https://instagram.com/budisans" },
     ],
     notes: "Budi adalah seorang software engineer di Tokopedia, teman kuliah.",
@@ -66,8 +66,8 @@ const storageContacts = [
       { type: "personal", address: "sitiaminah88@yahoo.com" },
     ],
     phones: [
-      { type: "mobile", number: "85712345678" },
-      { type: "work", number: "021-2754-3333" }, // Contoh nomor kantor Gojek
+      { type: "mobile", number: "+6285712345678" },
+      { type: "work", number: "+62021-2754-3333" },
     ],
     locations: [
       {
@@ -90,7 +90,7 @@ const storageContacts = [
     lastName: "Wijaya",
     fullName: "Agus Wijaya",
     nickname: "Agus",
-    photoUrl: "/images/unknown.jpg", // Foto tidak tersedia
+    photoUrl: "/images/unknown.jpg",
     birthday: new Date("1985-07-25"),
     groups: ["Kerja", "Komunitas Developer"],
     workProfile: {
@@ -103,7 +103,7 @@ const storageContacts = [
       { type: "work", address: "agus.wijaya@bankmandiri.co.id" },
       { type: "personal", address: "agus_wjy@gmail.com" },
     ],
-    phones: [{ type: "mobile", number: "87898765432" }],
+    phones: [{ type: "mobile", number: "+6287898765432" }],
     locations: [
       {
         type: "work",
@@ -146,7 +146,7 @@ const storageContacts = [
       { type: "work", address: "dewi.lestari@unilever.com" },
       { type: "personal", address: "dewilestari92@gmail.com" },
     ],
-    phones: [{ type: "mobile", number: "81311223344" }],
+    phones: [{ type: "mobile", number: "+6281311223344" }],
     locations: [
       {
         type: "work",
@@ -183,8 +183,8 @@ const storageContacts = [
       { type: "personal", address: "ekopras87@gmail.com" },
     ],
     phones: [
-      { type: "mobile", number: "81199887766" },
-      { type: "work", number: "022-452-1510" }, // Contoh nomor kantor Bandung
+      { type: "mobile", number: "+6281199887766" },
+      { type: "work", number: "+62022-452-1510" },
     ],
     locations: [
       {
@@ -228,6 +228,9 @@ function renderContacts() {
 
   const filteredContacts = searchContactsByKeyword(query);
 
+  console.table(filteredContacts);
+  console.log("cakra");
+
   searchInput.value = query || "";
   allContactList.innerHTML = filteredContacts
     .map((contact) => {
@@ -237,29 +240,22 @@ function renderContacts() {
                     <div class="avatar">
                       <div class="mask mask-squircle h-12 w-12">
                         <img
-                          src=${
-                            contact.photoUrl
-                              ? contact.photoUrl
-                              : `https://api.dicebear.com/9.x/pixel-art/jpg?seed=${contact.fullName}`
-                          }
+                          src=${contact.photoUrl}
                           alt="Avatar Tailwind CSS Component" />
                       </div>
                     </div>
                     <div>
                       <div class="font-bold">${contact.fullName}</div>
                       <div class="text-sm opacity-50">${
-                        contact.locations[0]?.country ??
-                        `<p>
-                            <i>Not Available</i>
-                          </p>`
+                        contact.locations[0]?.country
                       }</div>
                     </div>
                   </div>
                 </td>
                 <td>
                 ${
-                  !contact.workProfile
-                    ? `<p><i>Not Available<i><p>`
+                  !contact.workProfile.company && !contact.workProfile.jobTitle
+                    ? ``
                     : `
                   ${contact.workProfile?.company}
                   <br />
@@ -270,7 +266,7 @@ function renderContacts() {
                 `
                 }
                   
-                <td>+62-${contact.phones[0].number}</td>
+                <td>${contact.phones[0].number}</td>
                 <td>${contact.emails[0].address}</td>
                 <td>
                   <ul class="flex gap-2">
@@ -291,7 +287,7 @@ function renderContacts() {
                   <a href="./contact/?id=${
                     contact.id
                   }" id="view-contact" class="btn btn-ghost btn-xs">view</a>
-                  <a href="./edit-contact/?id=${
+                  <a href="contact/edit-contact/?id=${
                     contact.id
                   }" class="btn btn-ghost btn-xs">edit</a>
                   <button id="delete-contact" onclick="deleteDataContact(${

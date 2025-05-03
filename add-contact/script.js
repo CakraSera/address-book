@@ -1,4 +1,6 @@
 const contactFormElement = document.getElementById("contactForm");
+const countriesElement = document.getElementById("countries");
+const phoneNumberCodesElement = document.getElementById("phone-number-codes");
 
 contactFormElement.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -6,31 +8,37 @@ contactFormElement.addEventListener("submit", (event) => {
   console.log("🚀 ~ contactFormElement.addEventListener ~ formData:", formData);
 
   const newContact = {
-    fullName: String(formData.get("fullName")),
+    photoUrl: `https://api.dicebear.com/9.x/pixel-art/png?seed=${String(
+      formData.get("email")
+    )}`,
+    fullName: String(formData.get("fullname")),
     emails: [{ type: "work", address: String(formData.get("email")) }],
+    workProfile: {
+      company: String(formData.get("company")),
+      jobTitle: String(formData.get("job-title")),
+    },
     phones: [
-      { type: "personal", number: Number(formData.get("phone-number")) },
+      { type: "personal", number: `+${Number(formData.get("phone-number"))}` },
     ],
     locations: [
       {
         street: String(formData.get("address")),
+        country: String(formData.get("country")),
       },
     ],
   };
 
   addNewContact(newContact);
 
-  alert("successfully");
-  window.location.href = "../index.html";
+  Swal.fire({
+    title: "Success!",
+    text: `Contact with name ${newContact.fullName} has been added`,
+    icon: "success",
+    confirmButtonText: "Ok",
+    didClose: () => {
+      window.location.href = "../index.html";
+    },
+  });
 });
 
-async function getCountryAPI() {
-  const headers = { "X-Api-Key": "H7fv3DvCJWdXHN7U5oMApA==NesX3ejx4qXZbudT" };
-  console.log("🚀 ~ getCountryAPI ~ headers:", headers);
-  const response = await fetch("https://api.api-ninjas.com/v1/allcountries", {
-    headers: headers,
-  });
-  const data = await response.json();
-  console.log("🚀 ~ getCountryAPI ~ data:", data);
-}
-getCountryAPI();
+getCountriesAPIs();
